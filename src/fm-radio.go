@@ -78,6 +78,15 @@ func runScript(ch chan struct{}) {
 	handleErr(cmd.Process.Kill())
 }
 
+func RemoveLastChar(input string) string {
+	// If input string length is 1 or less return empty string.
+	if len(input) <= 1 {
+		return ""
+	}
+	// Return string new string
+	return string([]rune(input)[:len(input)-1])
+}
+
 // Run VLC
 func (freq *frequency) startVLC(ch chan struct{}) {
 	// Start a process:
@@ -117,7 +126,6 @@ func (freq *frequency) changeFreq(newFreq string) {
 
 // Home Screen (secretly not having any controls on it so I don't have to deal with that breaking it)
 func (freq *frequency) homeScreen(a fyne.App, currentFrequency fyne.CanvasObject, currentStation fyne.CanvasObject, currentLocation fyne.CanvasObject) fyne.CanvasObject {
-	log.Println("doing the thing")
 	centeredTop := fyne.NewContainerWithLayout(layout.NewHBoxLayout(), layout.NewSpacer(), currentStation, layout.NewSpacer())
 	centeredMidTop := fyne.NewContainerWithLayout(layout.NewHBoxLayout(), layout.NewSpacer(), currentLocation, layout.NewSpacer())
 	centered := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
@@ -169,7 +177,7 @@ func (freq *frequency) stationsScreen(a fyne.App, mainTabs *widget.TabContainer,
 				mainTabs.Remove(mainTabs.Items[0])
 				mainTabs.Append(widget.NewTabItemWithIcon("Home", theme.HomeIcon(), freq.homeScreen(a, currentFrequency, currentStation, currentLocation)))
 				mainTabs.Append(widget.NewTabItemWithIcon("Stations", theme.MenuIcon(), freq.stationsScreen(a, mainTabs, killVlc)))
-				mainTabs.Append(widget.NewTabItemWithIcon("Tuner", theme.RadioButtonCheckedIcon(), freq.tuner(a)))
+				mainTabs.Append(widget.NewTabItemWithIcon("Tuner", theme.RadioButtonCheckedIcon(), freq.tuner(a, mainTabs, killVlc)))
 				mainTabs.Append(widget.NewTabItemWithIcon("Quit", theme.CancelIcon(), freq.quitFM(a, killVlc)))
 				mainTabs.Refresh()
 				mainTabs.SelectTabIndex(0)
@@ -196,8 +204,68 @@ func (freq *frequency) quitFM(a fyne.App, killVlc chan struct{}) fyne.CanvasObje
 }
 
 // Function for tuner
-func (freq *frequency) tuner(a fyne.App) fyne.CanvasObject {
-	return canvas.NewText("pog", color.White)
+func (freq *frequency) tuner(a fyne.App, mainTabs *widget.TabContainer, killVlc chan struct{}) fyne.CanvasObject {
+	desired := widget.NewEntry()
+	desired.SetText(hzToMhz(freq.CurrFreq))
+	one := widget.NewButton("1", func() {
+		desired.SetText(desired.Text + "1")
+	})
+	two := widget.NewButton("2", func() {
+		desired.SetText(desired.Text + "2")
+	})
+	three := widget.NewButton("3", func() {
+		desired.SetText(desired.Text + "3")
+	})
+	four := widget.NewButton("4", func() {
+		desired.SetText(desired.Text + "4")
+	})
+	five := widget.NewButton("5", func() {
+		desired.SetText(desired.Text + "5")
+	})
+	six := widget.NewButton("6", func() {
+		desired.SetText(desired.Text + "6")
+	})
+	seven := widget.NewButton("7", func() {
+		desired.SetText(desired.Text + "7")
+	})
+	eight := widget.NewButton("8", func() {
+		desired.SetText(desired.Text + "8")
+	})
+	nine := widget.NewButton("9", func() {
+		desired.SetText(desired.Text + "9")
+	})
+	zero := widget.NewButton("0", func() {
+		desired.SetText(desired.Text + "0")
+	})
+	point := widget.NewButton(".", func() {
+		desired.SetText(desired.Text + ".")
+	})
+	delete := widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
+		desired.SetText(RemoveLastChar(desired.Text))
+	})
+	tuneButton := widget.NewButton("Tune to this frequency (in MHz)", func() {
+		freq.changeFreq(mhzToHz(desired.Text))
+		stationName, stationLocation := freq.nameStation()
+		currentFrequency := canvas.NewText(hzToMhz(freq.CurrFreq)+" MHz", color.White)
+		currentFrequency.TextSize = 30
+		currentStation := canvas.NewText(stationName, color.White)
+		currentStation.TextSize = 50
+		currentLocation := canvas.NewText(stationLocation, color.White)
+		currentLocation.TextSize = 40
+		freq.homeScreen(a, currentFrequency, currentStation, currentLocation).Refresh()
+		mainTabs.Remove(mainTabs.Items[0])
+		mainTabs.Remove(mainTabs.Items[0])
+		mainTabs.Remove(mainTabs.Items[0])
+		mainTabs.Remove(mainTabs.Items[0])
+		mainTabs.Append(widget.NewTabItemWithIcon("Home", theme.HomeIcon(), freq.homeScreen(a, currentFrequency, currentStation, currentLocation)))
+		mainTabs.Append(widget.NewTabItemWithIcon("Stations", theme.MenuIcon(), freq.stationsScreen(a, mainTabs, killVlc)))
+		mainTabs.Append(widget.NewTabItemWithIcon("Tuner", theme.RadioButtonCheckedIcon(), freq.tuner(a, mainTabs, killVlc)))
+		mainTabs.Append(widget.NewTabItemWithIcon("Quit", theme.CancelIcon(), freq.quitFM(a, killVlc)))
+		mainTabs.Refresh()
+		mainTabs.SelectTabIndex(0)
+	})
+	bValues := fyne.NewContainerWithLayout(layout.NewGridLayoutWithColumns(3), one, two, three, four, five, six, seven, eight, nine, zero, point, delete)
+	return fyne.NewContainerWithLayout(layout.NewVBoxLayout(), desired, bValues, tuneButton)
 }
 
 func main() {
@@ -236,7 +304,7 @@ func main() {
 	currentLocation.TextSize = 40
 	tabs := widget.NewTabContainer(widget.NewTabItemWithIcon("Home", theme.HomeIcon(), freq.homeScreen(a, currentFrequency, currentStation, currentLocation)))
 	tabs.Append(widget.NewTabItemWithIcon("Stations", theme.MenuIcon(), freq.stationsScreen(a, tabs, killVlc)))
-	tabs.Append(widget.NewTabItemWithIcon("Tuner", theme.RadioButtonCheckedIcon(), freq.tuner(a)))
+	tabs.Append(widget.NewTabItemWithIcon("Tuner", theme.RadioButtonCheckedIcon(), freq.tuner(a, tabs, killVlc)))
 	tabs.Append(widget.NewTabItemWithIcon("Quit", theme.CancelIcon(), freq.quitFM(a, killVlc)))
 	tabs.SetTabLocation(widget.TabLocationTrailing)
 	w.SetContent(tabs)
