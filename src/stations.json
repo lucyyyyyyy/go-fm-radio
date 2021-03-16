@@ -1,0 +1,209 @@
+{
+    "stations": [
+        {
+            "name": "Triple J",
+            "freq": "104100000",
+            "loc": "Darling Downs"
+        },
+        {
+            "name": "Rebel FM",
+            "freq": "90500000",
+            "loc": "Logan"
+        },
+        {
+            "name": "The Breeze",
+            "freq": "92100000",
+            "loc": "Logan"
+        },
+        {
+            "name": "SBS Radio",
+            "freq": "93300000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "River 94.9",
+            "freq": "94900000",
+            "loc": "Queensland"
+        },
+        {
+            "name": "97.3 FM",
+            "freq": "97300000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "Triple M",
+            "freq": "104500000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "Hit B105",
+            "freq": "105300000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "ABC Classic",
+            "freq": "106100000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "Nova",
+            "freq": "106900000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "Triple J",
+            "freq": "107700000",
+            "loc": "Brisbane"
+        },
+        {
+            "name": "Hit Sea",
+            "freq": "93100000",
+            "loc": "Bundaburg"
+        },
+        {
+            "name": "ABC Classic",
+            "freq": "98500000",
+            "loc": "Bundaburg"
+        },
+        {
+            "name": "Triple J",
+            "freq": "99300000",
+            "loc": "Bundaburg"
+        },
+        {
+            "name": "SBS Radio",
+            "freq": "90500000",
+            "loc": "Cairns"
+        },
+        {
+            "name": "Triple M",
+            "freq": "99500000",
+            "loc": "Cairns"
+        },
+        {
+            "name": "Hit",
+            "freq": "103500000",
+            "loc": "Cairns"
+        },
+        {
+            "name": "Triple J",
+            "freq": "107500000",
+            "loc": "Cairns"
+        },
+        {
+            "name": "Hit",
+            "freq": "100700000",
+            "loc": "Darling Downs"
+        },
+        {
+            "name": "ABC Classic",
+            "freq": "107300000",
+            "loc": "Darling Downs"
+        },
+        {
+            "name": "Hit",
+            "freq": "93500000",
+            "loc": "Central Queensland"
+        },
+        {
+            "name": "Triple M",
+            "freq": "95100000",
+            "loc": "Central Queensland"
+        },
+        {
+            "name": "Triple J",
+            "freq": "97700000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Raw FM",
+            "freq": "87600000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Beach FM",
+            "freq": "88000000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "ABC Classic",
+            "freq": "88500000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "ABC Radio National",
+            "freq": "90100000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Hit",
+            "freq": "90900000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "ABC Coast FM",
+            "freq": "91700000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Triple M",
+            "freq": "92500000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Rebel FM",
+            "freq": "99400000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "The Breeze",
+            "freq": "100600000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Hot Tomato",
+            "freq": "102900000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Radio Metro",
+            "freq": "105700000",
+            "loc": "Gold Coast"
+        },
+        {
+            "name": "Triple J",
+            "freq": "99300000",
+            "loc": "Hervey Bay/Maryborough"
+        },
+        {
+            "name": "Hit",
+            "freq": "101900000",
+            "loc": "Hervey Bay/Maryborough"
+        },
+        {
+            "name": "Triple J",
+            "freq": "89500000",
+            "loc": "Sunshine Coast"
+        },
+        {
+            "name": "ABC Coast FM",
+            "freq": "90300000",
+            "loc": "Sunshine Coast"
+        },
+        {
+            "name": "Hot 91",
+            "freq": "91100000",
+            "loc": "Sunshine Coast"
+        },
+        {
+            "name": "Sea FM (Hit)",
+            "freq": "91900000",
+            "loc": "Sunshine Coast"
+        },
+        {
+            "name": "MIX",
+            "freq": "92700000",
+            "loc": "Sunshine Coast"
+        }
+    ]
+}
