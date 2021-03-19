@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"io/ioutil"
 	"log"
+	"net/rpc/jsonrpc"
 	"os"
 	"os/exec"
 	"sort"
@@ -78,7 +79,7 @@ func runScript(ch chan struct{}) {
 	handleErr(cmd.Process.Kill())
 }
 
-func RemoveLastChar(input string) string {
+func removeLastChar(input string) string {
 	// If input string length is 1 or less return empty string.
 	if len(input) <= 1 {
 		return ""
@@ -90,7 +91,7 @@ func RemoveLastChar(input string) string {
 // Run VLC
 func (freq *frequency) startVLC(ch chan struct{}) {
 	// Start a process:
-	cmd := exec.Command("VLC", "http://live-radio01.mediahubaustralia.com/2TJW/mp3/", "-I dummy") //"http://localhost/"+freq.CurrFreq+"/0", "-I dummy")
+	cmd := exec.Command("VLC", "http://localhost/"+freq.CurrFreq+"/0", "-I dummy")
 	handleErr(cmd.Start())
 	// Block until ready to kill
 	<-ch
@@ -114,14 +115,14 @@ func (freq *frequency) nameStation() (string, string) {
 func (freq *frequency) changeFreq(newFreq string) {
 	freq.CurrFreq = newFreq
 	// Convert string to int for use with JSON RPC
-	//i, err := strconv.Atoi(newFreq)
-	//handleErr(err)
-	//var result int
+	i, err := strconv.Atoi(newFreq)
+	handleErr(err)
+	var result int
 	// Connect to JSON RPC
-	//conn, err := jsonrpc.Dial("tcp", "http://localhost:2354")
-	//handleErr(err)
+	conn, err := jsonrpc.Dial("tcp", "http://localhost:2354")
+	handleErr(err)
 	// Call the change of frequency
-	//err = conn.Call("SetFrequency", i, &result)
+	err = conn.Call("SetFrequency", i, &result)
 }
 
 // Home Screen (secretly not having any controls on it so I don't have to deal with that breaking it)
@@ -241,7 +242,7 @@ func (freq *frequency) tuner(a fyne.App, mainTabs *widget.TabContainer, killVlc 
 		desired.SetText(desired.Text + ".")
 	})
 	delete := widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
-		desired.SetText(RemoveLastChar(desired.Text))
+		desired.SetText(removeLastChar(desired.Text))
 	})
 	tuneButton := widget.NewButton("Tune to this frequency (in MHz)", func() {
 		freq.changeFreq(mhzToHz(desired.Text))
@@ -271,8 +272,8 @@ func (freq *frequency) tuner(a fyne.App, mainTabs *widget.TabContainer, killVlc 
 func main() {
 	freq := frequency{}
 	killVlc := make(chan struct{})
-	//killFm := make(chan struct{})
-	//go runScript(killFm)
+	killFm := make(chan struct{})
+	go runScript(killFm)
 	// Check if frequency file exists
 	if _, err := os.Stat("frequency"); err == nil {
 		content, err := ioutil.ReadFile("frequency")
