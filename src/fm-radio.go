@@ -122,6 +122,7 @@ func (freq *frequency) changeFreq(newFreq string) {
 	conn, err := jsonrpc.Dial("tcp", "http://localhost:2354")
 	handleErr(err)
 	// Call the change of frequency
+	//TO-DO add output for display
 	err = conn.Call("SetFrequency", i, &result)
 }
 
