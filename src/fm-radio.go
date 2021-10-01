@@ -70,7 +70,7 @@ func mhzToHz(mhz string) string {
 
 // Run the FM demodulator
 func runScript(ch chan struct{}) {
-	// Start a process:
+	// Start process:
 	cmd := exec.Command("./rtl_fm_streamer")
 	handleErr(cmd.Start())
 	// Block until ready to kill
@@ -90,7 +90,7 @@ func removeLastChar(input string) string {
 
 // Run VLC
 func (freq *frequency) startVLC(ch chan struct{}) {
-	// Start a process:
+	// Start process:
 	cmd := exec.Command("VLC", "http://localhost/"+freq.CurrFreq+"/0", "-I dummy")
 	handleErr(cmd.Start())
 	// Block until ready to kill
